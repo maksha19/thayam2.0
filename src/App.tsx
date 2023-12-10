@@ -54,6 +54,7 @@ function App() {
   const coinCapture = (capturePlayer: string) => {
     if (capturePlayer === null) return
 
+    console.log("capturePlayer", capturePlayer)
     if (capturePlayer === 'red' && redPlayerCoins < 5) {
       setRedPlayerCoins((prevCoins) => prevCoins + 1);
     } else if (capturePlayer === 'blue' && bluePlayerCoins < 5) {
