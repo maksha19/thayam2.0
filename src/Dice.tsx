@@ -13,7 +13,7 @@ const Dice: React.FC<DiceProps> = ({ onRoll, activePlayer }) => {
   useEffect(() => {
     if (rolling) {
       const timeoutId = setTimeout(() => {
-        const result = Math.floor(Math.random() * 1) + 1;
+        const result = Math.floor(Math.random() * 6) + 1;
         console.log(result);
         onRoll(result);
         setRolling(false);

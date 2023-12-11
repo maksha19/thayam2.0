@@ -1,6 +1,6 @@
 // Cell.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 
 interface CellProps {
   row: number;
@@ -34,11 +34,11 @@ const Cell: React.FC<CellProps> = ({ row, col, isCoin, activePlayer, onMoveCoin,
   return (
 
     <div
-      className={`w-12 h-12 border border-gray-500 relative flex justify-center items-center ${isCrossCell ? 'bg-green-500' : ''} ${(redCoinCount > 0 || blueCoinCount >0) && (currentRow === row && currentCol === col) ? `bg-yellow-300` : ''}`}
+      className={`w-12 h-12 border-2 border-gray-500 relative flex justify-center items-center ${isCrossCell ? 'bg-green-500' : ''} ${(redCoinCount > 0 || blueCoinCount >0) && (currentRow === row && currentCol === col) ? `bg-yellow-300` : ''}`}
       onClick={()=>!isCrossCell && handleCellClick(isCoin)} 
     >
       {isCrossCell && (
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="h-10 w-10 absolute top-0" onClick={()=>(redCoinCount == 0 || blueCoinCount == 0) && handleCellClick(isCoin)}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="h-10 w-10 absolute top-0" onClick={()=>(redCoinCount === 0 || blueCoinCount === 0) && handleCellClick(isCoin)}>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       )}

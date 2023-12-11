@@ -5,24 +5,28 @@ import Cell from './Cell';
 
 interface BoardProps {
     coinCapture: (player: string) => void;
+    switchPlayer: () => void;
     activePlayer: string;
     diceResult: number | null;
 }
 
-const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) => {
+const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture, switchPlayer }) => {
     const initialBoardState: { isCoin: string | null, redCoinCount: number, blueCoinCount: number }[][] = Array.from({ length: 7 }, () =>
         Array.from({ length: 7 }, () => ({ isCoin: null, redCoinCount: 0, blueCoinCount: 0 }))
     );
 
     const [boardState, setBoardState] = useState(initialBoardState);
-    const [selected, setSelected] = useState<string |null>(null);
+    const [selected, setSelected] = useState<string | null>(null);
     const [currentRow, setCurrentRow] = useState<number | null>(null);
     const [currentCol, setCurrentCol] = useState<number | null>(null);
 
     useEffect(() => {
         // Determine the target cell based on the active player
         console.log('diceResult', diceResult)
-        if (diceResult && diceResult === 1) {
+        if(diceResult === null){ 
+            return
+        }
+        if (diceResult === 1) {
             const targetRow = activePlayer === 'red' ? 0 : 6;
             const targetCol = 3;
             console.log({ targetRow, targetCol, activePlayer })
@@ -38,10 +42,14 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                 return newBoardState;
             });
         }
+        if(![1,5,6,12].includes(diceResult)){
+            switchPlayer()
+        }
+        // eslint-disable-next-line
     }, [diceResult])
 
     const onMoveCoin = (row: number, col: number, isCoin: string | null) => {
-        console.log("onMoveCoin", {row, col, isCoin})
+        console.log("onMoveCoin", { row, col, isCoin })
 
         if (selected) {
             // If a coin is selected, move it to the clicked cell
@@ -71,7 +79,7 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                     if (oldCoin && (oldCoin === movedCoin)) {
                         console.log('sameplayer coin')
                         // remove old coin selection if it was same coin
-                        if(currentRow === row && currentCol === col){
+                        if (currentRow === row && currentCol === col) {
                             setSelected(null);
                             setCurrentRow(null);
                             setCurrentCol(null);
@@ -84,7 +92,7 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                 console.log("formPalce", newBoardState[currentRow][currentCol])
 
                 // Move the coin from the source cell to the target cell
-                newBoardState[currentRow][currentCol].isCoin = isCurentRowColCrossCell ? activePlayer: null;
+                newBoardState[currentRow][currentCol].isCoin = isCurentRowColCrossCell ? activePlayer : null;
                 if (movedCoin === 'red') {
                     newBoardState[currentRow][currentCol].redCoinCount = newBoardState[currentRow][currentCol].redCoinCount > 0 ? newBoardState[currentRow][currentCol].redCoinCount - 1 : 0
                     newBoardState[row][col].redCoinCount = newBoardState[row][col].redCoinCount + 1
@@ -92,7 +100,7 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                     newBoardState[currentRow][currentCol].blueCoinCount = newBoardState[currentRow][currentCol].blueCoinCount > 0 ? newBoardState[currentRow][currentCol].blueCoinCount - 1 : 0
                     newBoardState[row][col].blueCoinCount = newBoardState[row][col].blueCoinCount + 1
                 }
-                newBoardState[row][col].isCoin =  isCrossCell ? activePlayer: movedCoin;
+                newBoardState[row][col].isCoin = isCrossCell ? activePlayer : movedCoin;
 
 
                 // Update the board state
@@ -104,9 +112,14 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                 }, 0)
 
                 // shoudn't capture for crossCell
-                if(!isCrossCell){
+                if (!isCrossCell) {
                     if (oldCoin && !(oldCoin === movedCoin)) coinCapture(oldCoin)
                 }
+                setTimeout(() => {
+                    if(diceResult && ![1,5,6,12].includes(diceResult)){
+                        switchPlayer()
+                    }   
+                }, 500)
 
             }
         } else {
@@ -122,7 +135,7 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
     };
 
     return (
-        <div className="grid grid-rows-7 grid-cols-7 gap-1">
+        <div className="grid grid-rows-7 grid-cols-7 ">
             {boardState.map((row, rowIndex) => (
                 <div key={rowIndex} className="flex justify-center items-center flex-col">
                     {row.map((cell, colIndex) => (
@@ -135,8 +148,8 @@ const Board: React.FC<BoardProps> = ({ diceResult, activePlayer, coinCapture }) 
                             blueCoinCount={cell.blueCoinCount}
                             onMoveCoin={onMoveCoin}
                             activePlayer={activePlayer}
-                            currentRow ={currentRow}
-                            currentCol ={currentCol}
+                            currentRow={currentRow}
+                            currentCol={currentCol}
                         />
                     ))}
                 </div>

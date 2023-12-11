@@ -26,17 +26,35 @@ function App() {
   }, [timer, activePlayer]);
 
   const handleDiceRoll = (result: number) => {
-    
-    // reset to null for 2nd time got 1
-    setDiceResult(null);
+
+    if (activePlayer === 'red' && redPlayerCoins === 5) {
+      if (![1, 5, 6, 12].includes(result)) {
+        setActivePlayer('blue')
+        // Reset the timer when the dice is rolled
+        setTimer(10);
+        return
+      }
+    }
+    if (activePlayer === 'blue' && redPlayerCoins === 5) {
+      if (![1, 5, 6, 12].includes(result)) {
+        setActivePlayer('red')
+        // Reset the timer when the dice is rolled
+        setTimer(10);
+        return
+      }
+    }
 
     if (activePlayer === 'red' && redPlayerCoins > 0 && result === 1) {
-      setTimeout( ()=>{
-        setDiceResult(1);
+      // reset to null for 2nd time got 1
+      setDiceResult(null);
+      setTimeout(() => {
         setRedPlayerCoins((prevCoins) => prevCoins - 1);
+        setDiceResult(1);
       })
     } else if (activePlayer === 'blue' && bluePlayerCoins > 0 && result === 1) {
-      setTimeout( ()=>{
+      // reset to null for 2nd time got 1
+      setDiceResult(null);
+      setTimeout(() => {
         setBluePlayerCoins((prevCoins) => prevCoins - 1);
         setDiceResult(1);
       })
@@ -65,7 +83,7 @@ function App() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex">
-        <Board activePlayer={activePlayer} diceResult={diceResult} coinCapture={coinCapture} />
+        <Board activePlayer={activePlayer} diceResult={diceResult} coinCapture={coinCapture} switchPlayer={switchPlayer} />
         <div className="ml-4">
           <Dice onRoll={handleDiceRoll} activePlayer={activePlayer} />
           <Player color="red" coins={redPlayerCoins} />
