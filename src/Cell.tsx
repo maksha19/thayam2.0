@@ -34,7 +34,7 @@ const Cell: React.FC<CellProps> = ({ row, col, isCoin, activePlayer, onMoveCoin,
   return (
 
     <div
-      className={`w-12 h-12 border-2 border-gray-500 relative flex justify-center items-center ${isCrossCell ? 'bg-green-500' : ''} ${(redCoinCount > 0 || blueCoinCount >0) && (currentRow === row && currentCol === col) ? `bg-yellow-300` : ''}`}
+      className={`w-11 h-11 border-2 border-gray-500 relative flex justify-center items-center ${isCrossCell ? 'bg-green-500' : ''} ${(redCoinCount > 0 || blueCoinCount >0) && (currentRow === row && currentCol === col) ? `bg-yellow-300` : ''}`}
       onClick={()=>!isCrossCell && handleCellClick(isCoin)} 
     >
       {isCrossCell && (
