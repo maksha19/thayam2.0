@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/thayam2.0/static/css/main.cebd0984.css",
+    "main.js": "/thayam2.0/static/js/main.3b016da6.js",
+    "static/js/787.c28bfe5d.chunk.js": "/thayam2.0/static/js/787.c28bfe5d.chunk.js",
+    "index.html": "/thayam2.0/index.html",
+    "main.cebd0984.css.map": "/thayam2.0/static/css/main.cebd0984.css.map",
+    "main.3b016da6.js.map": "/thayam2.0/static/js/main.3b016da6.js.map",
+    "787.c28bfe5d.chunk.js.map": "/thayam2.0/static/js/787.c28bfe5d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cebd0984.css",
+    "static/js/main.3b016da6.js"
+  ]
+}
