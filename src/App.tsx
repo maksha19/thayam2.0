@@ -74,14 +74,14 @@ function App() {
         setRedPlayerCoins((prevCoins) => prevCoins - 1);
         setDiceResult(1);
       })
-      setTimeout(() => {setDiceResult(null)},500)
+      setTimeout(() => { setDiceResult(null) }, 500)
     } else if (activePlayer === 'blue' && bluePlayerCoins > 0 && result === 1) {
       // reset to null for 2nd time got 1
       setDiceResult(null);
       setTimeout(() => {
         setBluePlayerCoins((prevCoins) => prevCoins - 1);
         setDiceResult(1);
-        setTimeout(() => {setDiceResult(null)},500)
+        setTimeout(() => { setDiceResult(null) }, 500)
       })
     } else {
       setDiceResult(result);
@@ -92,8 +92,12 @@ function App() {
   };
 
   const switchPlayer = () => {
-    setActivePlayer((prevPlayer) => (prevPlayer === 'red' ? 'blue' : 'red'));
-    setTimer(30);
+    console.log("switchPlayer", activePlayer)
+    setTimeout(() => {
+      setActivePlayer((prevPlayer) => (prevPlayer === 'red' ? 'blue' : 'red'));
+      setTimer(30);
+    }, 0)
+
   };
 
   const coinCapture = (capturePlayer: string) => {
@@ -116,20 +120,20 @@ function App() {
 
   return (
     <>
-    {isLoading ? (
+      {isLoading ? (
         <LoadingScreen startGame={startGame} />
       ) : (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex">
-        <Board activePlayer={activePlayer} diceResult={diceResult} coinCapture={coinCapture} switchPlayer={switchPlayer} />
-        <div className="ml-4 flex flex-col justify-center items-center">
-          <Player color="red" coins={redPlayerCoins} />
-          <Dice onRoll={handleDiceRoll} activePlayer={activePlayer} />
-          <Player color="blue" coins={bluePlayerCoins} />
-          <CircularProgressBar percentage={timer} activePlayer={activePlayer} />
-        </div>
-      </div>
-    </div>)}
+        <div className="flex justify-center items-center h-screen">
+          <div className="flex">
+            <Board activePlayer={activePlayer} diceResult={diceResult} coinCapture={coinCapture} switchPlayer={switchPlayer} />
+            <div className="ml-4 flex flex-col justify-center items-center">
+              <Player color="red" coins={redPlayerCoins} />
+              <Dice onRoll={handleDiceRoll} activePlayer={activePlayer} />
+              <Player color="blue" coins={bluePlayerCoins} />
+              <CircularProgressBar percentage={timer} activePlayer={activePlayer} />
+            </div>
+          </div>
+        </div>)}
     </>
   );
 }

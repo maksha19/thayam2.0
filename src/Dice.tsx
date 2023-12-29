@@ -9,8 +9,8 @@ interface DiceProps {
 
 const Dice: React.FC<DiceProps> = ({ onRoll, activePlayer }) => {
   const [rolling, setRolling] = useState(false);
-  const [faceOne, setFaceOne] = useState(0)
-  const [faceSecond, setFaceSecond] = useState(0)
+  const [faceOne, setFaceOne] = useState<number| null>(0)
+  const [faceSecond, setFaceSecond] = useState<number| null>(0)
 
   useEffect(() => {
     if (rolling) {
@@ -29,6 +29,13 @@ const Dice: React.FC<DiceProps> = ({ onRoll, activePlayer }) => {
     }
   }, [rolling, onRoll]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setFaceOne(null);
+      setFaceSecond(null);
+    }, 0);
+  },[activePlayer])
+
   const rollDice = () => {
     if (!rolling) {
       setRolling(true);
@@ -36,24 +43,45 @@ const Dice: React.FC<DiceProps> = ({ onRoll, activePlayer }) => {
   };
 
   return (
-    <div className='flex flex-row'>
-      <div className={`flex flex-col m-2 items-center ${rolling ? `animate-spin` : ''}`}>
-        <button
-          className={`${activePlayer === "red" ? "bg-red-500" : "bg-blue-500"} text-white p-2 w-12 h-12 rounded-md cursor-pointer`}
-          onClick={rollDice}
-        >
-          {faceOne === 0 ? "" : faceOne}
-        </button>
+    <>
+      <div className='mt-3.5 min-h-3'>
+        {
+          activePlayer === 'red' &&
+          <div className="triangle-container">
+            <div className="triangle-red"></div>
+          </div>
+        }
+
       </div>
-      <div className={`flex flex-col m-2 items-center ${rolling ? `animate-spin` : ''}`}>
-        <button
-          className={`${activePlayer === "red" ? "bg-red-500" : "bg-blue-500"} text-white p-2 w-12 h-12 rounded-md cursor-pointer`}
-          onClick={rollDice}
-        >
-          {faceSecond === 0 ? "" : faceSecond}
-        </button>
+      <div className='flex flex-row mb-3.5'>
+        <div className={`flex flex-col m-2 items-center ${rolling ? `animate-spin` : ''}`}>
+          <button
+            className={`${activePlayer === "red" ? "bg-red-500" : "bg-blue-500"} text-white p-2 w-12 h-12 rounded-md cursor-pointer`}
+            onClick={rollDice}
+          >
+            { faceOne === 0 ? "" : faceOne}
+            { faceOne === null && "X"}
+          </button>
+        </div>
+        <div className={`flex flex-col m-2 items-center ${rolling ? `animate-spin` : ''}`}>
+          <button
+            className={`${activePlayer === "red" ? "bg-red-500" : "bg-blue-500"} text-white p-2 w-12 h-12 rounded-md cursor-pointer`}
+            onClick={rollDice}
+          >
+            {faceSecond === 0 ? "" : faceSecond}
+            {faceSecond === null && "X"}
+          </button>
+        </div>
       </div>
-    </div>
+      <div className='min-h-3'>
+        {activePlayer === "blue" &&
+          <div className="triangle-container">
+            <div className="triangle-blue"></div>
+          </div>
+        }
+
+      </div>
+    </>
   );
 };
 

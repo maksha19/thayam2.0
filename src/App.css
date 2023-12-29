@@ -59,3 +59,27 @@
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   /* Clip to create a semi-circle */
 }
+
+.triangle-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Align the triangle at the bottom of the container */
+  height: 0; /* Adjust the height of the container as needed */
+}
+
+.triangle-red {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent; /* Adjust size as needed */
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid #ef4444; /* Adjust color as needed */
+}
+
+.triangle-blue {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent; /* Adjust size as needed */
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid #3b82f6; /* Adjust color as needed */
+  transform: rotate(180deg);
+}

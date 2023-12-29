@@ -15,7 +15,7 @@ const CircularProgressBar: React.FC<CircularProgressBar> = ({ percentage,activeP
 
   return (
     <svg
-      className="w-10 h-10"
+      className="w-10 h-10 mt-4"
       viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
       xmlns="http://www.w3.org/2000/svg"
     >
